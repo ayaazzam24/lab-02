@@ -1,0 +1,40 @@
+header {
+    width: 80%;
+    margin: 70px ;
+        text-align: center;
+    padding: 25px;
+    background-color: rgba(246, 199, 255, 0.801);
+    border-radius: 25px;
+  }
+  #photo-template{
+      display: none;
+  }
+  h1 {
+    font-size: xx-large;
+  }
+  
+
+  section {
+    width: 40%;
+    height: 400px;
+    text-align: center;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-around;
+    float: left;
+    background-color: rgba(246, 199, 255, 0.801);
+    border-radius: 20px;
+    margin: 50px;
+  }
+  
+  select {
+    margin: 25px;
+    width: 25%;
+    padding: 12.5px;
+    border-radius: 10%;
+  }
+  
+  footer {
+    clear: both;
+    text-align: center;
+  }
