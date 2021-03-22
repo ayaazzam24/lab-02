@@ -40,7 +40,7 @@ $('select').change(function () {
         getImagesData();
     } else {
         
-        console.log('sssssssss');
+       
         $('section').attr('id','photo-template');
         geteveryThingDataByKey(keyWords);
         
@@ -58,7 +58,7 @@ function geteveryThingDataByKey(key) {
         data.forEach(item => {
             if(item.keyword===key){
                 ObjeverThing = new Images( item.image_url,item.title,item.description, item.keyword,item.horns);
-                // console.log(animalObj);
+                
                 ObjeverThing .selected();
             }
 
