@@ -1,24 +1,39 @@
-section {
-    width: 40%;
-    height: 400px;
-    text-align: center;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: space-around;
-    float: left;
-    background-color: rgba(246, 199, 255, 0.801);
-    border-radius: 20px;
-    margin: 50px;
-  }
+#photo-template {
+  display: none;
+}
+
+
+
+div img{
+  width: 325px;
+  height: 200px;
   
-  select {
-    margin: 25px;
-    width: 25%;
-    padding: 12.5px;
-    border-radius: 10%;
-  }
-  
-  footer {
-    clear: both;
-    text-align: center;
-  }
+}
+select{
+  padding: 10px 20px;
+  font-size: 60%;
+  background-color: #fdfdff;
+  color: #77757c;
+  border-style: none;
+  border-radius: 4px;
+
+}
+#Page1{
+  padding: 10px 16px;
+  background-color: #a8a8aa;
+  border-style: none;
+  color: #000000;
+  border-radius: 4px;
+}
+#Page2{
+  padding: 10px 16px;
+  background-color: #a8a8aa;
+  border-style: none;
+  color: #000000;
+  border-radius: 4px;
+}
+
+
+
+
+
