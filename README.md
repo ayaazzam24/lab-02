@@ -1,34 +1,43 @@
-# lab-02
-jQuery Selectors and Events
+# lab-03
+The Gallery of Horns
+Introduction: this web site it show you the gallery of the horns that you can filter the horns as you like.
+Time Estimate
+Number and name of feature:Feature 1: Pagination
 
-Number and name of feature: Feature 1
+Estimate of time needed to complete: 2hour
+
+Start time: 2.00
+
+Finish time: 4:00
+
+Actual time needed to complete:2 hour
+
+Number and name of feature:Feature 2: Templating
 
 Estimate of time needed to complete: 3 hour
 
-Start time: 2:30pm
+Start time: 4:00
 
-Finish time: 6:30pm
+Finish time: 7:00
 
-Actual time needed to complete: 4 hour
+Actual time needed to complete:3 hour
 
-Number and name of feature: Feature 2
+Number and name of feature:Feature #3: Style the application
 
-Estimate of time needed to complete:  30 mintues
+Estimate of time needed to complete:30min
 
-Start time: : 6:30pm
+Start time: 7:00
 
-Finish time: : 7:30pm
+Finish time: 8:00
 
-Actual time needed to complete:  1 hour
+Actual time needed to complete: 1 hour
 
+Number and name of feature:Feature 4: Sort the images
 
-Number and name of feature: Feature 3
+Estimate of time needed to complete:1:00
 
-Estimate of time needed to complete: 30 minutes
+Start time: 8
 
-Start time: 7:30pm
+Finish time: 10
 
-Finish time: 8:30pm
-
-Actual time needed to complete:  1hour
-
+Actual time needed to complete: 2 hour 

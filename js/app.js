@@ -1,87 +1,281 @@
-'user strict';
+'use strict';
+let keywords = [];
+let infoArray = [];
+let allPictures = [];
+let page =1;
 
-function Images(image_url,title,description,keyword,horns){
-    this.image_url= image_url;
-    this.title= title;
-    this.description= description;
-    this.keyword= keyword;
-    this.horns= horns;
-}
-Images.prototype.render = function(){
-    let photoSection =$('#photo-template').clone();
-    $('main').append(photoSection);
-    photoSection.find('h2').text(this.title);
-    photoSection.find('img').attr('src',this.image_url);
-    photoSection.find('p').text(this.description);
-    $('select').append(`<option value='${this.keyword}'>${this.keyword}</option>`);
-    
-   
-  
-    photoSection.removeAttr('id');
+function Images(item) {
+    this.image_url = item.image_url;
+    this.title = item.title;
+    this.description = item.description;
+    this.keyword = item.keyword;
+    this.horns = item.horns;
+    keywords.push(this.keyword);
+    allPictures.push(this);
 
-}
-Images.prototype.selected = function () {
-    let photoSection =$('#photo-template').clone();
-    $('main').append(photoSection);
-    photoSection.find('h2').text(this.title);
-    photoSection.find('img').attr('src',this.image_url);
-    photoSection.find('p').text(this.description);
-    $('select').append(`<option value='${this.keyword}'>${this.keyword}</option>`);
-    
-    
-    photoSection.removeAttr('id');
-   
 };
-$('select').change(function () {
-    let keyWords = $('select option:selected').val();
-    if (keyWords === 'default') {
-        
-        $('section').attr('id','photo-template');
-        getImagesData();
-    } else {
-        
-       
-        $('section').attr('id','photo-template');
-        geteveryThingDataByKey(keyWords);
-        
+
+Images.prototype.renderIt = function () {
+    
+
+    let template = $('#mustache-template').html();
+    let html = Mustache.render(template, this);
+
+    return html;
+};
+
+function getData(array) {
+
+   
+    for (let i = 0; i < array.length; i++) {
+        if (infoArray.indexOf(array[i]) === -1) {
+            infoArray.push(array[i]);
+        }
     }
-});
 
-function geteveryThingDataByKey(key) {
-
-    const ajaxSetting = {
-        method: 'get',
-        dataType: 'json'
-    };
-    $.ajax('data/page-1.json', ajaxSetting).then(data => {
-        let ObjeverThing;
-        data.forEach(item => {
-            if(item.keyword===key){
-                ObjeverThing = new Images( item.image_url,item.title,item.description, item.keyword,item.horns);
-                
-                ObjeverThing .selected();
-            }
-
-        });
-    });
 }
 
+function selected() {
 
-function getImagesData(){
+    $('select').append('<option value="all" id="option">filter by keywords</option>');
+
+    for (let i = 0; i < infoArray.length; i++) {
+
+        let option = $('#option').clone();
+        $('select').append(option);
+        option.html(infoArray[i]);
+        option.removeAttr('id');
+        option.attr('value', infoArray[i]);
+
+    }
+    $('#select').on('change', function () {
+        $('div').css({ 'display': 'none' });
+
+        $('.' + this.value).css({ 'display': 'inline-block' })
+    })
+
+}
+
+function forSorting1(arr) {
+    arr.sort((a, b) => {
+        if (a.title.toUpperCase() < b.title.toUpperCase()) {
+            return -1;
+        } else if (a.title.toUpperCase() > b.title.toUpperCase()) {
+            return 1;
+        }
+        return 0;
+    })
+    return arr;
+};
+function forSorting2(arr) {
+    arr.sort((a, b) => {
+        if (a.horns < b.horns) {
+            return -1;
+        } else if (a.horns > b.horns) {
+            return 1;
+        }
+        return 0;
+    })
+    return arr;
+};
+
+
+
+Images.readJson1 = () => {
     const ajaxSettings = {
         method: 'get',
         dataType: 'json'
-    }
-    console.log("json")
-    
-    $.ajax('data/page-1.json', ajaxSettings).then(data=> {
-        
-        data.forEach(element=> {
-            let imgObj = new Images(element.image_url,element.title,element.description,element.keyword,element.horns);
-            imgObj.render();
-            
-        })
-})
+    };
+
+    $.ajax('data/page-1.json', ajaxSettings).then((data) => {
+
+            forSorting1(data);
+
+        data.forEach((item) => {
+            let horn = new Images(item);
+            $('#allItems').append(horn.renderIt());
+        });
+        getData(keywords);
+        selected();
+    });
+
+};
+
+Images.readJson2 = () => {
+    const ajaxSettings = {
+        method: 'get',
+        dataType: 'json'
+    };
+
+    $.ajax('data/page-2.json', ajaxSettings).then((data) => {
+
+        forSorting1(data);
+
+        data.forEach((item) => {
+            let horn = new Images(item);
+            $('#allItems').append(horn.renderIt());
+        });
+        getData(keywords);
+        selected();
+    });
+
+};
+
+
+$(() => Images.readJson1());
+
+function page1() {
+    $('.all').remove();
+    keywords = [];
+    infoArray = [];
+    $('option').remove();
+    Images.readJson1();
+
+    page =1;
 }
 
-$('document').ready(getImagesData);
+function page2() {
+    $('.all').remove();
+    keywords = [];
+    infoArray = [];
+    $('option').remove();
+   Images.readJson2();
+
+    page =2;
+
+}
+
+
+
+
+function sort1(){
+    let currentSort =document.getElementById("select").value;
+
+    if(page == 1){
+        $('.all').remove();
+        keywords = [];
+        infoArray = [];
+        $('option').remove();
+        
+        const ajaxSettings = {
+            method: 'get',
+            dataType: 'json'
+        };
+    
+        $.ajax('data/page-1.json', ajaxSettings).then((data) => {
+    
+                forSorting1(data);
+    
+            data.forEach((item) => {
+                let horn = new Images(item);
+                $('#allItems').append(horn.renderIt());
+            });
+            getData(keywords);
+            selected();
+
+            document.getElementById("select").value = currentSort;
+            $('div').css({ 'display': 'none' });
+            $('.' + currentSort).css({ 'display': 'inline-block' })
+        });
+    
+    }
+
+    if(page == 2){
+        $('.all').remove();
+        keywords = [];
+        infoArray = [];
+        $('option').remove();
+        
+        const ajaxSettings = {
+            method: 'get',
+            dataType: 'json'
+        };
+    
+        $.ajax('data/page-2.json', ajaxSettings).then((data) => {
+    
+                forSorting1(data);
+    
+            data.forEach((item) => {
+                let horn = new Images(item);
+                $('#allItems').append(horn.renderIt());
+            });
+            getData(keywords);
+            selected();
+
+            document.getElementById("select").value = currentSort;
+            $('div').css({ 'display': 'none' });
+            $('.' + currentSort).css({ 'display': 'inline-block' })
+        });
+    
+    } 
+}
+
+
+function sort2(){
+    let currentSort =document.getElementById("select").value;
+
+    if(page == 1){
+        $('.all').remove();
+        keywords = [];
+        infoArray = [];
+        $('option').remove();
+        
+        const ajaxSettings = {
+            method: 'get',
+            dataType: 'json'
+        };
+    
+        $.ajax('data/page-1.json', ajaxSettings).then((data) => {
+    
+                forSorting2(data);
+    
+            data.forEach((item) => {
+                    let horn = new Images(item);
+                    $('#allItems').append(horn.renderIt());
+        
+            });
+            getData(keywords);
+            selected();
+
+            document.getElementById("select").value = currentSort;
+            $('div').css({ 'display': 'none' });
+            $('.' + currentSort).css({ 'display': 'inline-block' })
+        });
+
+    }
+
+    if(page == 2){
+        $('.all').remove();
+        keywords = [];
+        infoArray = [];
+        $('option').remove();
+        
+
+
+
+        const ajaxSettings = {
+            method: 'get',
+            dataType: 'json'
+        };
+    
+        $.ajax('data/page-2.json', ajaxSettings).then((data) => {
+    
+                forSorting2(data);
+    
+            data.forEach((item) => {
+                let horn = new ImagesS(item);
+                $('#allItems').append(horn.renderIt());
+            });
+            getData(keywords);
+            selected();
+
+            document.getElementById("select").value = currentSort;
+            $('div').css({ 'display': 'none' });
+            $('.' + currentSort).css({ 'display': 'inline-block' })
+        });
+    } 
+
+
+    
+
+}
